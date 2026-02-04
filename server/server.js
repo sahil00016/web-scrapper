@@ -20,7 +20,11 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect(process.env.MONGO_URI).then(() => console.log("MongoDB Connected"));
+mongoose.connect(process.env.MONGO_URI, {
+  tls: true,
+  tlsAllowInvalidCertificates: true,
+  retryWrites: true
+})
 
 app.use("/api/events", require("./routes/event.routes"));
 app.use("/api/leads", require("./routes/lead.routes"));
